@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\SongsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,19 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('/create/song', function () {
+    return view('songs.create');
+});
+
+Route::prefix('page')->group(function () {
+    Route::get('/', function () {
+        return view('welcome');
+    });
+
+    Route::prefix('songs')->group(function () {
+        Route::get('', [SongsController::class, 'index'])->name('page.songs');
+        Route::post('store', [SongsController::class, 'store'])->name('page.songs.store');
+    });
 });
